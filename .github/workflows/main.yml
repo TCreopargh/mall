@@ -3,7 +3,7 @@
 name: Merge upstream branches
 on:
   schedule:
-    - cron:  '*/60 * * * *'
+    - cron:  '*/30 * * * *'
 jobs:
   merge:
     runs-on: ubuntu-latest
