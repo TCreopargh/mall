@@ -77,12 +77,12 @@
             var delData = {"id":delid};
             $.ajax({
                             type:"post", 
-                            url:"/delete",
+                            url:"/delete_goods",
                             async:false,
                             data:delData,
                             dataType: 'json',
                             success: function(data) {
-                                if(res.type == "success"){
+                                if(data["type"] == "success"){
                                     alert("delete the item successfully!");
                                     location.reload();
                                 }
