@@ -3,18 +3,15 @@ package com.mng.controller.shop;
 import com.alibaba.fastjson.JSONObject;
 import com.mng.bean.AddGoodsBody;
 import com.mng.entity.Commodity;
-import com.mng.entity.NewGoods;
+
 import com.mng.entity.Shop;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-public class AddGoodsController extends ShopBase{
+public class GoodsController extends ShopBase{
     @RequestMapping(value = "/add_goods",method = RequestMethod.POST)
     public JSONObject addGoods(HttpServletRequest request, @ModelAttribute("addGoods") AddGoodsBody addGoodsBody ) throws Exception {
         List<Commodity>  commodityList;
@@ -55,6 +52,35 @@ public class AddGoodsController extends ShopBase{
                 commodityRepository.save(commodity);
                 JSONObject json = new JSONObject();
                 json.put("type","true");
+                return json;
+
+            }
+        }catch( Exception e){
+            JSONObject json = new JSONObject();
+            json.put("type", e.getMessage());
+            return json;
+        }
+    }
+    @RequestMapping(value = "/delete_goods",method = RequestMethod.POST)
+    public JSONObject deleteGoods(HttpServletRequest request, @RequestParam("comid") Integer comid) throws Exception {
+        List<Commodity>  commodityList;
+        //Integer comid = (Integer) request.getSession().getAttribute("comid");
+
+        System.out.println(comid);
+//        commodityList=commodityRepository.findAll();
+//        for(Commodity c : commodityList){
+//            System.out.println(c.toString()+"\n");
+//        }
+
+        try {
+            if(comid.equals(null)){
+                throw new Exception("false");
+            }else if ((commodityList = commodityRepository.findByComid(comid)).isEmpty()) {
+                throw new Exception("false");
+            } else {
+                commodityRepository.deleteByComid(comid);
+                JSONObject json = new JSONObject();
+                json.put("type","success");
                 return json;
 
             }
