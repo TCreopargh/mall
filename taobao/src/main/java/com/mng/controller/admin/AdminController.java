@@ -1,8 +1,6 @@
 package com.mng.controller.admin;
 
-import com.mng.bean.AdminLoginBody;
-import com.mng.bean.UserRemoveBody;
-import com.mng.bean.UserTableRequestBody;
+import com.mng.bean.*;
 import com.mng.entity.User;
 import com.mng.util.JsonBuilder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,29 +43,55 @@ public class AdminController extends UserContentProvider {
         return json == null ? "{}" : json;
     }
 
+    @RequestMapping(value = "/edit-user", method = RequestMethod.POST)
+    public String editUser(HttpServletRequest request, @ModelAttribute("user") UserEditBody body) {
+        User user = userRepository.findById(body.getId()).orElse(null);
+        if (user == null) {
+            return JsonBuilder.newObject()
+                    .put("success", false)
+                    .put("reason", "User Not Found!")
+                    .build();
+        }
+        user.setMail(body.getMail());
+        user.setUsername(body.getUsername());
+        user.setUsertype(body.getUsertype());
+        user.setPassword(body.getPassword());
+        user.setPhone(body.getPhone());
+        userRepository.save(user);
+        return JsonBuilder.newObject()
+                .put("success", true)
+                .build();
+    }
+
+
+    // TODO: Fix adding the user twice
+    @RequestMapping(value = "/add-user", method = RequestMethod.POST)
+    public String addUser(HttpServletRequest request, @ModelAttribute("user") UserAddBody body) {
+        User user = new User();
+        user.setMail(body.getMail());
+        user.setUsername(body.getUsername());
+        user.setUsertype(body.getUsertype());
+        user.setPassword(body.getPassword());
+        user.setPhone(body.getPhone());
+        userRepository.saveAndFlush(user);
+        return JsonBuilder.newObject()
+                .put("success", true)
+                .build();
+    }
+
     @RequestMapping(value = "/remove-user", method = RequestMethod.POST)
     public String removeUser(HttpServletRequest request, @ModelAttribute("user") UserRemoveBody body) {
         final Integer userId = body.getUserId();
-        final String username = body.getUsername();
         final String jsonSuccess = JsonBuilder.newObject()
                 .put("success", true)
                 .build();
         final String jsonFail = JsonBuilder.newObject()
                 .put("success", false)
                 .build();
-        if (userId != null) {
-            Optional<User> userToRemove = userRepository.findById(userId);
-            if (userToRemove.isPresent()) {
-                userRepository.delete(userToRemove.get());
-                return jsonSuccess;
-            }
-        }
-        if (username != null) {
-            List<User> usersToRemove = userRepository.findByUsername(username);
-            if (!usersToRemove.isEmpty()) {
-                userRepository.deleteAll(usersToRemove);
-                return jsonSuccess;
-            }
+        Optional<User> userToRemove = userRepository.findById(userId);
+        if (userToRemove.isPresent()) {
+            userRepository.delete(userToRemove.get());
+            return jsonSuccess;
         }
         return jsonFail;
     }
