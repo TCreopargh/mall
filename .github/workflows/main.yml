@@ -4,7 +4,7 @@ name: Merge upstream branches
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '*/10 * * * *'
+    - cron:  '*/60 * * * *'
 jobs:
   merge:
     runs-on: ubuntu-latest
