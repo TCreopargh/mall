@@ -333,7 +333,7 @@
         var price = data["price"].toString();
         var remain = data["remain"].toString();
         var info = data["info"];
-        var address = data["address"];+ price.toString()
+        var address = data["address"];
         var id = data["id"];
         theli = theli +  "<a class='item-a'>" + 
                     "<img alt='' height='198px' src='" + img + "' width='194p'>" +
@@ -524,7 +524,7 @@
                     </div>
                     <div class="seller_info">
                         <span th:text="${item.seller_info}">Loading...</span>
-                        <span  th:text="${item.address}">(address: <span>xxx</span>) </span>
+                        <span  th:text="${seller.address}">(address: <span>xxx</span>) </span>
                     </div>
                     <div class="item_footer">
                         <button class="cart_button" onclick="addToShoppingCart(this)" th:id="${item.id}"><span
