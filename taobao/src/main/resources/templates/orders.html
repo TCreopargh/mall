@@ -14,8 +14,8 @@
             width: 100%;
             height: 500px;
             border: 4px solid black;
-            cellpadding: 10;
-            cellspacing = "0";
+            cellpadding: 10px;
+            cellspacing: 0px;
             margin: auto;
             border-collapse: collapse;
         }
@@ -108,11 +108,11 @@
                     // 指定图表的配置项和数据
                     option = {
                         title: {
-                            text: 'Weekly Sales (￥)'
+                            text: 'Monthly Sales (￥)'
                         },
                         tooltip: {},
                         legend: {
-                            data: 'Weekly Sales'// 此处数据无关紧要
+                            data: 'Monthly Sales'// 此处数据无关紧要
                         },
                         xAxis: {
                             type: 'category',
@@ -122,7 +122,7 @@
                             type: 'value',
                         },
                         series: [{
-                            name: 'Weekly Sales',
+                            name: 'Monthly Sales',
                             type: 'bar',
                             data: data.values,
 
@@ -175,7 +175,7 @@
 <div id="week" style="width: 600px;height:400px;"></div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart1 = echarts.init(document.getElementById('week'));
+    let myChart1 = echarts.init(document.getElementById('week'));
 
     // 指定图表的配置项和数据
     option = {
@@ -209,7 +209,7 @@
 <div id="month" style="width: 600px;height:400px;"></div>
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart2 = echarts.init(document.getElementById('month'));
+    let myChart2 = echarts.init(document.getElementById('month'));
 
     // 指定图表的配置项和数据
     option = {
@@ -239,5 +239,5 @@
     myChart2.setOption(option);
 </script>
 
-
+</body>
 </html>

@@ -1,6 +1,5 @@
 package com.mng.controller.orders;
 
-import com.alibaba.fastjson.JSONObject;
 import com.mng.bean.response.OrderGraphResponse;
 import com.mng.entity.Order;
 import org.springframework.http.MediaType;
@@ -30,7 +29,6 @@ public class OrderGraphController extends OrderControllerBase {
         Date nowDate = new Date();
         Calendar now = Calendar.getInstance();
         now.setTime(nowDate);
-        JSONObject p = new JSONObject();
         // Names of the X-axis (maybe?)
         List<Integer> names;
         List<Double> values;
@@ -45,6 +43,12 @@ public class OrderGraphController extends OrderControllerBase {
                 if (xWeek <= 14 && xWeek >= 0) {
                     int k = names.indexOf(xWeek + 1);
                     values.set(k, values.get(k) + orders.getPayment());
+                }
+            }
+            for (int i : names) {
+                i--;
+                if (i > 0) {
+                    values.set(i, values.get(i) + values.get(i - 1));
                 }
             }
             // by month
